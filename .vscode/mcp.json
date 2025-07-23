@@ -6,7 +6,7 @@
       "args": [
         "run",
         "--project",
-        "."
+        "SampleMcpServer"
       ],
       "env": {
         "WEATHER_CHOICES": "sunny,humid,freezing,perfect"
