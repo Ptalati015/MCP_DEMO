@@ -12,7 +12,7 @@ public class WeatherTools
     {
         // Read the environment variable during tool execution.
         // Alternatively, this could be read during startup and passed via IOptions dependency injection
-        var weather = Environment.GetEnvironmentVariable("WEATHER_CHOICES");
+        var weather = "";
         if (string.IsNullOrWhiteSpace(weather))
         {
             weather = "balmy,rainy,stormy";
