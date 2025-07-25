@@ -9,7 +9,9 @@
         "SampleMcpServer"
       ],
       "env": {
-        "WEATHER_CHOICES": "sunny,humid,freezing,perfect"
+        "WEATHER_CHOICES": "sunny,humid,freezing,perfect",
+        "WEATHER_SERVICE_URL": "http://api.weatherapi.com/v1",
+        "WEATHER_SERVICE_API_KEY": "your_api_key_here"
       }
     }
   }
