@@ -1,26 +1,37 @@
 using System.ComponentModel;
 using ModelContextProtocol.Server;
+using SampleMcpServer.Services;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace SampleMcpServer.Tools;
 
+
+
+
 public class WeatherTools
 {
+    private readonly WeatherService _weatherService;
+    private readonly ILogger<WeatherTools> _logger;
+    public WeatherTools(WeatherService weatherService, ILogger<WeatherTools> logger)
+    {
+        _weatherService = weatherService;
+        _logger = logger;
+    }
+
     [McpServerTool]
     [Description("Describes random weather in the provided city.")]
-    public string GetCityWeather(
+    public async Task<string> GetCityWeather(
         [Description("Name of the city to return weather for")] string city)
     {
-        // Read the environment variable during tool execution.
-        // Alternatively, this could be read during startup and passed via IOptions dependency injection
-        var weather = "";
-        if (string.IsNullOrWhiteSpace(weather))
+        var weather =  await _weatherService.GetCurrentWeatherAsync(city);
+        
+        if (weather == null)
         {
-            weather = "balmy,rainy,stormy";
+            return $"Unable to get weather information for {city}. Please check the city name.";
         }
 
-        var weatherChoices = weather.Split(",");
-        var selectedWeatherIndex = Random.Shared.Next(0, weatherChoices.Length);
-
-        return $"The weather in {city} is {weatherChoices[selectedWeatherIndex]}.";
+        return $"Current weather in {weather.City}: {weather.Temperature:F1}°C, {weather.Description}. " +
+               $"Humidity: {weather.Humidity}%, Pressure: {weather.Pressure:F0} hPa, Wind: {weather.WindSpeed:F1} m/s";
     }
 }
